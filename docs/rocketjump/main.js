@@ -22,7 +22,7 @@ l l l
  gg
  gg
  gg 
-`,  `
+`,`
     l
    l
 lllll
@@ -76,11 +76,6 @@ let enemies;
  */
 let currentEnemySpeed;
 
-/**
- * @type { number }
- */
-let waveCount;
-
 function update() {
 	if (!ticks) {
 		player = {
@@ -89,33 +84,43 @@ function update() {
 			inAir: false
 		};
 		enemies = [];
-		waveCount = 0;
 		currentEnemySpeed = 0;
 	}
+	//ground
 	color("blue");
 	box(0, G.HEIGHT, G.WIDTH * 2, 31);
+	//player
+	color("black");
+    char("a", player.pos);
+	//rocket launcher
+	char("b", (vec(player.pos.x + 3, player.pos.y)));
 
+	//spawns the arrows
 	if (enemies.length === 0) {
         currentEnemySpeed =
             rnd(G.ENEMY_MIN_BASE_SPEED, G.ENEMY_MAX_BASE_SPEED) * difficulty;
         for (let i = 0; i < rnd(2,6); i++) {
             const posX = rnd(80, G.WIDTH);
-            const posY = 130;//rnd(20, G.HEIGHT - 20);
+            const posY = rnd(20, G.HEIGHT - 20);
             enemies.push({ pos: vec(posX, posY) })
         }
     }
 
+	//checks if arrows hits players or goes out of bounds
 	remove(enemies, (e) => {
         e.pos.x -= currentEnemySpeed;
         color("black");
 
-		const isCollidingWithPlayer = char("c", e.pos).isColliding.char.b;
+		const isCollidingWithPlayer = char("c", e.pos).isColliding.char.a;
 		if (isCollidingWithPlayer) {
 			end();
 			play("powerUp");
 		}
 
-        return (e.pos.x < 0);
+		if (e.pos.x < 0) {
+			addScore(1);
+			return (e.pos.x < 0);
+		}
     });
 
 	//jump
@@ -123,7 +128,7 @@ function update() {
 		//checks if player is on ground
 		if (!player.inAir) {
 			player.inAir = true;
-			player.pos.y -= 65;
+			player.pos.y -= 60;
 			color("red");
 			particle(
 				player.pos.x + 3,
@@ -161,7 +166,4 @@ function update() {
 		player.inAir = false;
 		player.jumpsLeft = 2;
 	}
-	color("black");
-    char("a", player.pos);
-	char("b", (vec(player.pos.x + 3, player.pos.y)));
 }
