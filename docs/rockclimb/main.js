@@ -84,15 +84,14 @@ function update() {
 	//limit player movement
 	player.pos.clamp(0, G.WIDTH, 0, G.HEIGHT);
 	color("black");
-	//player sprite
-	const c1 = char(
-		player.mode === "left" || player.mode === "right" ? "a" : "b",
-		player.pos);
+	//player sprite/animation
+	char(addWithCharCode("a", player.pos.y % 2), player.pos);
 	//player movement
-	player.pos = vec(input.pos.x, 130);
+	player.pos = vec(input.pos.x, player.pos.y);
 	
 	//checking if there are rocks on the screen
 	if (rocks.length === 0) {
+		player.pos.y -= 0.3;
 		for (let i = 0; i < rnd(2,7); i ++) {
 			currentRockSpeed = rnd(G.ROCK_MIN_BASE_SPEED, G.ROCK_MAX_BASE_SPEED) * difficulty;
 			const posX = rnd(G.WIDTH);
@@ -111,7 +110,7 @@ function update() {
 		r.rotation += G.ROCK_ROTATION_SPEED;
 
 		color("red");
-		const isCollidingWithPlayer = char("c", r.pos, {rotation: r.rotation}).isColliding.char.c1;
+		const c = char("c", r.pos, {rotation: r.rotation}).isColliding.char;
 		particle(
 			r.pos.x,
 			r.pos.y,
@@ -120,9 +119,10 @@ function update() {
 			PI/2,
 			PI/1.5
 		);
-		if (isCollidingWithPlayer) {
+
+		if (c.a || c.b) {
+			play("hit");
 			end();
-			play("powerUp");
 		}
 
 		if (r.pos.y > G.HEIGHT) {
