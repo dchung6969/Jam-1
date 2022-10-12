@@ -81,13 +81,17 @@ function update() {
 		rocks = [];
 		currentRockSpeed = 0;
 	}
+	//limit player movement
 	player.pos.clamp(0, G.WIDTH, 0, G.HEIGHT);
 	color("black");
+	//player sprite
 	const c1 = char(
 		player.mode === "left" || player.mode === "right" ? "a" : "b",
 		player.pos);
+	//player movement
 	player.pos = vec(input.pos.x, 130);
-
+	
+	//checking if there are rocks on the screen
 	if (rocks.length === 0) {
 		for (let i = 0; i < rnd(2,7); i ++) {
 			currentRockSpeed = rnd(G.ROCK_MIN_BASE_SPEED, G.ROCK_MAX_BASE_SPEED) * difficulty;
@@ -100,6 +104,8 @@ function update() {
 			})
 		}
 	}
+
+	//update rocks and check if out of bounds or collided with player
 	remove(rocks, (r) => {
 		r.pos.y += r.speed;
 		r.rotation += G.ROCK_ROTATION_SPEED;
