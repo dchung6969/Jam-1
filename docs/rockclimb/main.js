@@ -95,7 +95,12 @@ function update() {
 	
 	//checking if there are rocks on the screen
 	if (rocks.length === 0) {
-		player.pos.y -= 0.3;
+		if (player.pos.y <= 20) {
+			play("hit");
+			player.pos.y = 130;
+		} else {
+			player.pos.y -= 0.3;
+		}
 		for (let i = 0; i < rnd(2,7); i ++) {
 			currentRockSpeed = rnd(G.ROCK_MIN_BASE_SPEED, G.ROCK_MAX_BASE_SPEED) * difficulty;
 			const posX = rnd(G.WIDTH);
