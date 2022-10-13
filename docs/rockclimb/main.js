@@ -1,6 +1,7 @@
 title = "Rock Climb";
 
-description = ` dodge the coming rock
+description = ` dodge the 
+coming rock  ！！！
 `;
 
 characters = [
