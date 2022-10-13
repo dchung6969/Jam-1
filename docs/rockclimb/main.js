@@ -1,6 +1,6 @@
 title = "Rock Climb";
 
-description = `
+description = ` dodge the coming rock
 `;
 
 characters = [
@@ -39,7 +39,9 @@ const G = {
 
 options = {
 	viewSize: {x: G.WIDTH, y: G.HEIGHT},
-	isReplayEnabled: true
+	isReplayEnabled: true,
+	isPlayingBgm: true,
+	seed:10000
 };
 
 /**
