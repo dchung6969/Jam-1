@@ -1,7 +1,7 @@
 {
-  "name": "crisp-game-lib-tutorial",
+  "name": "Jam 1",
   "version": "1.0.0",
-  "description": "A tutorial for CrispGameLib",
+  "description": "Danny's Jam 1 solo game and pair game with Minghui",
   "scripts": {
     "watch_games": "light-server -s docs -w \"docs/**/* # # reload\""
   },
